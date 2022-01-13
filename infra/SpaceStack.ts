@@ -3,10 +3,16 @@ import { Construct }                                    from 'constructs';
 import { Code, Function as LambdaFunction, Runtime }    from 'aws-cdk-lib/aws-lambda'
 import { join }                                         from 'path'
 import { LambdaIntegration, RestApi }                   from 'aws-cdk-lib/aws-apigateway'
+import { GenericTable } from './GenericTable';
 
 export class SpaceStack extends Stack {
     
     private api = new RestApi(this, 'SpaceApi')
+    private spacesTable = new GenericTable(
+        'SpacesTable',
+        'spaceId',
+        this
+    )
 
     constructor(scope: Construct, id: string, props: StackProps) {
         super(scope,id,props)
@@ -27,8 +33,6 @@ export class SpaceStack extends Stack {
 
         // Adds method that calls the API
         helloLambdaResource.addMethod('GET', helloLambdaIntegration)
-
-        
 
         // Once deployed, copy the output, and /hello and go to raw data to see if the response is correct
     }
