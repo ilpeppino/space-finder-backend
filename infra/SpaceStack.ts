@@ -1,9 +1,11 @@
-import { Stack, StackProps, App }                       from 'aws-cdk-lib';
+import { Stack, StackProps }                       from 'aws-cdk-lib';
 import { Construct }                                    from 'constructs';
 import { Code, Function as LambdaFunction, Runtime }    from 'aws-cdk-lib/aws-lambda'
 import { join }                                         from 'path'
 import { LambdaIntegration, RestApi }                   from 'aws-cdk-lib/aws-apigateway'
-import { GenericTable } from './GenericTable';
+import { GenericTable }                                 from './GenericTable'
+// Class 25. Import needed for Lamba bundling
+import { NodejsFunction}                                from 'aws-cdk-lib/aws-lambda-nodejs'
 
 export class SpaceStack extends Stack {
     
@@ -23,7 +25,14 @@ export class SpaceStack extends Stack {
             handler: 'hello.main'
         })
 
-        // Hello API Lambda integration
+        const helloLambdaNodeJs = new NodejsFunction(this, 'helloLambdaNodeJs', {
+            entry: join(__dirname, '..', 'services', 'node-lambda', 'hello.ts'),
+            handler: 'handler'
+        })
+
+//------------------------------------------------------------------------------------
+        // CASE 1
+        // Lambda integration with LambdaFunction with Javascript class
         
         // Integrates an AWS Lambda function to an API Gateway method
         const helloLambdaIntegration = new LambdaIntegration(helloLambda)
@@ -35,5 +44,10 @@ export class SpaceStack extends Stack {
         helloLambdaResource.addMethod('GET', helloLambdaIntegration)
 
         // Once deployed, copy the output, and /hello and go to raw data to see if the response is correct
+
+//------------------------------------------------------------------------------------
+
+        // CASE 2
+        // Lambda integration with NodejsFunction with Typescript class
     }
 }
