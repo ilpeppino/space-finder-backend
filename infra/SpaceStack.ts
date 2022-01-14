@@ -25,10 +25,6 @@ export class SpaceStack extends Stack {
             handler: 'hello.main'
         })
 
-        const helloLambdaNodeJs = new NodejsFunction(this, 'helloLambdaNodeJs', {
-            entry: join(__dirname, '..', 'services', 'node-lambda', 'hello.ts'),
-            handler: 'handler'
-        })
 
 //------------------------------------------------------------------------------------
         // CASE 1
@@ -49,5 +45,24 @@ export class SpaceStack extends Stack {
 
         // CASE 2
         // Lambda integration with NodejsFunction with Typescript class
+
+        const helloLambdaNodeJs = new NodejsFunction(this, 'helloLambdaNodeJs', {
+            entry: join(__dirname, '..', 'services', 'node-lambda', 'hello.ts'),
+            handler: 'handler'
+        })
+
+//------------------------------------------------------------------------------------
+
+        // CASE 3
+        // Lambda integration with webpack
+
+        // code must point to the bundle
+        // handler is the handler defined in the hello.ts
+
+        const helloLambdaWebpack = new LambdaFunction(this, 'helloLambdaWebpack', {
+            runtime: Runtime.NODEJS_14_X,
+            code: Code.fromAsset(join(__dirname, '..', 'build', 'nodeHelloLambda')),
+            handler: 'nodeHelloLambda.handler'
+        })
     }
 }
