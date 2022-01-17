@@ -31,7 +31,7 @@ const config: Configuration = {
     // we can remove it from the bundle
     externals: {
         'aws-sdk': 'aws-sdk'
-    }
+    },
 
     output: {
         libraryTarget: 'commonjs2',

@@ -60,7 +60,7 @@
         "aws:cdk:path": "Space-finder/SpaceApi/Account"
       }
     },
-    "SpaceApiDeploymentA2B9E765554aec58dc5d1be79899ce4101601e9d": {
+    "SpaceApiDeploymentA2B9E765a76718c27102407fd5bddfba5030fa29": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -83,7 +83,7 @@
           "Ref": "SpaceApi1B373D2B"
         },
         "DeploymentId": {
-          "Ref": "SpaceApiDeploymentA2B9E765554aec58dc5d1be79899ce4101601e9d"
+          "Ref": "SpaceApiDeploymentA2B9E765a76718c27102407fd5bddfba5030fa29"
         },
         "StageName": "prod"
       },
@@ -118,7 +118,7 @@
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
           "Fn::GetAtt": [
-            "helloLambda79DCE371",
+            "helloLambdaNodeJs14E63891",
             "Arn"
           ]
         },
@@ -162,7 +162,7 @@
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
           "Fn::GetAtt": [
-            "helloLambda79DCE371",
+            "helloLambdaNodeJs14E63891",
             "Arn"
           ]
         },
@@ -225,7 +225,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "helloLambda79DCE371",
+                    "helloLambdaNodeJs14E63891",
                     "Arn"
                   ]
                 },
@@ -266,68 +266,6 @@
         "aws:cdk:path": "Space-finder/SpacesTable/Resource"
       }
     },
-    "helloLambdaServiceRoleBB046714": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-              ]
-            ]
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/helloLambda/ServiceRole/Resource"
-      }
-    },
-    "helloLambda79DCE371": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-          },
-          "S3Key": "cd23474fbcd120133f131dc50785c5e212277b2f48036d4920d53cb997048a3b.zip"
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "helloLambdaServiceRoleBB046714",
-            "Arn"
-          ]
-        },
-        "Handler": "hello.main",
-        "Runtime": "nodejs14.x"
-      },
-      "DependsOn": [
-        "helloLambdaServiceRoleBB046714"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/helloLambda/Resource",
-        "aws:asset:path": "asset.cd23474fbcd120133f131dc50785c5e212277b2f48036d4920d53cb997048a3b",
-        "aws:asset:is-bundled": false,
-        "aws:asset:property": "Code"
-      }
-    },
     "helloLambdaNodeJsServiceRole17C143C3": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -362,6 +300,30 @@
         "aws:cdk:path": "Space-finder/helloLambdaNodeJs/ServiceRole/Resource"
       }
     },
+    "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:ListAllMyBuckets",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C",
+        "Roles": [
+          {
+            "Ref": "helloLambdaNodeJsServiceRole17C143C3"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "Space-finder/helloLambdaNodeJs/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
     "helloLambdaNodeJs14E63891": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -369,7 +331,7 @@
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
           },
-          "S3Key": "d86e85f9c73f20c022541328b2cd4371520c412365a5ad893f80475cfde10f41.zip"
+          "S3Key": "0d0dda6a06810c92e8d70f5f6a1a9e6bd1aa5940cdb93a7e23e70e78fff6681a.zip"
         },
         "Role": {
           "Fn::GetAtt": [
@@ -386,81 +348,20 @@
         "Runtime": "nodejs14.x"
       },
       "DependsOn": [
+        "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C",
         "helloLambdaNodeJsServiceRole17C143C3"
       ],
       "Metadata": {
         "aws:cdk:path": "Space-finder/helloLambdaNodeJs/Resource",
-        "aws:asset:path": "asset.d86e85f9c73f20c022541328b2cd4371520c412365a5ad893f80475cfde10f41",
+        "aws:asset:path": "asset.0d0dda6a06810c92e8d70f5f6a1a9e6bd1aa5940cdb93a7e23e70e78fff6681a",
         "aws:asset:is-bundled": true,
-        "aws:asset:property": "Code"
-      }
-    },
-    "helloLambdaWebpackServiceRole0688A60B": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-              ]
-            ]
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/helloLambdaWebpack/ServiceRole/Resource"
-      }
-    },
-    "helloLambdaWebpack20809786": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-          },
-          "S3Key": "13c581b1b670c3fbb164f918fc2dd138271039df2a1bec63a4f73bf565289f5f.zip"
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "helloLambdaWebpackServiceRole0688A60B",
-            "Arn"
-          ]
-        },
-        "Handler": "nodeHelloLambda.handler",
-        "Runtime": "nodejs14.x"
-      },
-      "DependsOn": [
-        "helloLambdaWebpackServiceRole0688A60B"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/helloLambdaWebpack/Resource",
-        "aws:asset:path": "asset.13c581b1b670c3fbb164f918fc2dd138271039df2a1bec63a4f73bf565289f5f",
-        "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
       }
     },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQzU7DMBCEn6V31xAquKdF3PhR4R5t7CU4ie0oa1NFUd6ddQxKOc23I3vW4zt5L293cKG90t2+N7Wc3wOoTrBVzTCYBgJeYJLzGSmUgxGnT3eFpVI+uiAecej9ZJGR3auJ0xpMXga+6uOo8Ai0Db+ZmZ8xfHmdrEyLMGB5ve/zOdZF9GBrDXJm4w1Ha4iMd+IpOhUSsP3Hi9CTA+s1N/uAOoessAg6VECEgWSZhGd5jKrDsL4u76ic19iSfFllS+WU1xiGGLYWa0iqaVzzrxLzyTtt8s0UKFu6+S4eZHGQxa4lY/Yj/6KxKM9ZfwC39u+omAEAAA=="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQy07DMBBFv6V71xAq2KdF7HiosI8m9pBOEttRxqaKovw7dkzVsrpnrubh6wf5KO83cOat0t22p1rOnx5UJ6JVzTBQAx7PMMn5iOzLgcTh295gqZQL1otnHHo3GYwY3ZsqbmsweRniqAujwj3wtfjbmfkV/cnpZGVaBIGJ512f+5J+uJ7UlMpMi+jB1BrknCwcDTGTs6nhJVjlIy9CTxaM0zHhF9R52QqX4co6jS3Lt1Uuc4J3FTCjZ1kmibXcB9WhTxGWtOU9+CH4a5q1L8Ul2/yLFvngrKb8nnROtnz3UzzJYieLTctE2zH+JhmUx6y/iTKaraABAAA="
       },
       "Metadata": {
         "aws:cdk:path": "Space-finder/CDKMetadata/Default"
