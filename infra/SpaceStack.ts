@@ -10,15 +10,16 @@ import { PolicyStatement }                              from 'aws-cdk-lib/aws-ia
 
 export class SpaceStack extends Stack {
     
-    // Creates API gateway REST (aws-apigateway)
+    // Defines API gateway REST (aws-apigateway)
     private _api = new RestApi(this, 'SpaceApi')
 
-    // Creates Dynamo db table (GenericTable.ts)
+    // Defines Dynamo db table (GenericTable.ts). This calls the constructor of GenericTable
     private _spacesTable = new GenericTable(this, {
         tableName: 'SpacesTable',
         primaryKey: 'spaceId',
         createLambdaPath: 'Create',
-        readLambdaPath: 'Read'
+        readLambdaPath: 'Read',
+        secondaryIndexes: ["location"]
     })
 
 

@@ -13,6 +13,7 @@ export interface TableProps {
     readLambdaPath?     : string  //optional
     updateLambdaPath?   : string  //optional
     deleteLambdaPath?   : string  //optional
+    secondaryIndexes?   : string[] //optional
 }
 
 export class GenericTable {
@@ -45,6 +46,7 @@ export class GenericTable {
 
     private initialize() {
         this.createTable()
+        this.addSecondaryIndexes()
         this.createLambdas()
         this.grantTableRights()
     }
@@ -95,11 +97,26 @@ export class GenericTable {
         }
     }
 
+    private addSecondaryIndexes() {
+        if (this._props.secondaryIndexes) {
+            for (const secondaryIndex of this._props.secondaryIndexes) {
+                this._table.addGlobalSecondaryIndex({
+                    indexName: secondaryIndex,
+                    partitionKey: {
+                        name: secondaryIndex,
+                        type: AttributeType.STRING
+                    }
+                })
+            }         
+        }
+    }
+
+    // Defines the entrypoint for the lambdas based on lambdaName. Each lambda will then perform specific operations
     private createSingleLambda(lambdaName: string): NodejsFunction {
 
         const lambaId = `${this._props.tableName}-${lambdaName}`
         
-        // Creates lambda with name lambdaId in the stack, which executes the Create.ts script
+        // Creates lambda with name lambdaId in the stack, which executes the .ts script
         return new NodejsFunction(this._stack, lambaId, {
             entry: (join(__dirname,'..','services',this._props.tableName, `${lambdaName}.ts`)),
             handler: "handler",

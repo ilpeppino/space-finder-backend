@@ -4,7 +4,10 @@
 #GET {{endpoint}}/hello
 ###
 
-GET {{endpoint}}/spaces?xxx
+GET {{endpoint}}/spaces?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+###
+
+GET {{endpoint}}/spaces?location=London
 ###
 
 POST {{endpoint}}/spaces/
