@@ -1,5 +1,11 @@
-//import { handler } from '../../services/node-lambda/hello'
 import {handler} from '../../services/SpacesTable/Create'
-import { APIGatewayProxyEvent, Context } from 'aws-lambda';
+//import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from 'aws-lambda';
 
-handler({} as APIGatewayProxyEvent, {} as Context )
+const event = {
+    body: {
+        location: 'Paris' 
+    }
+}
+
+// handler(event as any, {} as Context )
+handler(event as any, {} as any)

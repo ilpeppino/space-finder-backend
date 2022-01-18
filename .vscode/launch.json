@@ -4,17 +4,17 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug locally",
+            "name": "Debug here",
             "runtimeArgs": [
                 "-r",
                 "ts-node/register"
             ],
-            "args": [
-                "${relativeFile}"
-            ],
+            "args": ["${relativeFile}"],
             "env": {
-                "AWS_REGION": "us-east-1"
-            }         
+                "AWS_REGION":"us-east-1"
+            },
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }
