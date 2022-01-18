@@ -1,5 +1,14 @@
 #@endpoint = https://10f4z51fy3.execute-api.us-east-1.amazonaws.com/prod
-@endpoint = https://10f4z51fy3.execute-api.us-east-1.amazonaws.com/prod/
+@endpoint = https://ar10dtwcme.execute-api.us-east-1.amazonaws.com/prod/
 
 GET {{endpoint}}/hello
+###
+
+POST {{endpoint}}/spaces/
+Content-Type: : application/json
+
+{
+    "location": "London",
+    "name": "Best location"
+}
 ###
