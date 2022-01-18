@@ -60,7 +60,7 @@
         "aws:cdk:path": "Space-finder/SpaceApi/Account"
       }
     },
-    "SpaceApiDeploymentA2B9E765af487e37ac2be3b442fcedfc1a6791de": {
+    "SpaceApiDeploymentA2B9E7650d3e4485a756a7b2c9107224738ba65c": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -69,8 +69,6 @@
         "Description": "Automatically created by the RestApi construct"
       },
       "DependsOn": [
-        "SpaceApihelloGET65983C27",
-        "SpaceApihelloDF776653",
         "SpaceApispacesPOST1DDB27B3",
         "SpaceApispacesD5EE855F"
       ],
@@ -85,7 +83,7 @@
           "Ref": "SpaceApi1B373D2B"
         },
         "DeploymentId": {
-          "Ref": "SpaceApiDeploymentA2B9E765af487e37ac2be3b442fcedfc1a6791de"
+          "Ref": "SpaceApiDeploymentA2B9E7650d3e4485a756a7b2c9107224738ba65c"
         },
         "StageName": "prod"
       },
@@ -94,151 +92,6 @@
       ],
       "Metadata": {
         "aws:cdk:path": "Space-finder/SpaceApi/DeploymentStage.prod/Resource"
-      }
-    },
-    "SpaceApihelloDF776653": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
-            "SpaceApi1B373D2B",
-            "RootResourceId"
-          ]
-        },
-        "PathPart": "hello",
-        "RestApiId": {
-          "Ref": "SpaceApi1B373D2B"
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/Resource"
-      }
-    },
-    "SpaceApihelloGETApiPermissionSpacefinderSpaceApi0274A94DGEThelloF2551934": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "helloLambdaNodeJs14E63891",
-            "Arn"
-          ]
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "SpaceApi1B373D2B"
-              },
-              "/",
-              {
-                "Ref": "SpaceApiDeploymentStageprodBB8A31FE"
-              },
-              "/GET/hello"
-            ]
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/GET/ApiPermission.SpacefinderSpaceApi0274A94D.GET..hello"
-      }
-    },
-    "SpaceApihelloGETApiPermissionTestSpacefinderSpaceApi0274A94DGEThelloEC2F16E7": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "helloLambdaNodeJs14E63891",
-            "Arn"
-          ]
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "SpaceApi1B373D2B"
-              },
-              "/test-invoke-stage/GET/hello"
-            ]
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/GET/ApiPermission.Test.SpacefinderSpaceApi0274A94D.GET..hello"
-      }
-    },
-    "SpaceApihelloGET65983C27": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "ResourceId": {
-          "Ref": "SpaceApihelloDF776653"
-        },
-        "RestApiId": {
-          "Ref": "SpaceApi1B373D2B"
-        },
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "helloLambdaNodeJs14E63891",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/GET/Resource"
       }
     },
     "SpaceApispacesD5EE855F": {
@@ -519,98 +372,6 @@
       "Metadata": {
         "aws:cdk:path": "Space-finder/SpacesTable-Create/Resource",
         "aws:asset:path": "asset.c245ff1052bda76317afeb3b89ab98a1b1838f529a6990d6e91d08b9a299ec58",
-        "aws:asset:is-bundled": true,
-        "aws:asset:property": "Code"
-      }
-    },
-    "helloLambdaNodeJsServiceRole17C143C3": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-              ]
-            ]
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/helloLambdaNodeJs/ServiceRole/Resource"
-      }
-    },
-    "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "s3:ListAllMyBuckets",
-              "Effect": "Allow",
-              "Resource": "*"
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C",
-        "Roles": [
-          {
-            "Ref": "helloLambdaNodeJsServiceRole17C143C3"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/helloLambdaNodeJs/ServiceRole/DefaultPolicy/Resource"
-      }
-    },
-    "helloLambdaNodeJs14E63891": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-          },
-          "S3Key": "0d0dda6a06810c92e8d70f5f6a1a9e6bd1aa5940cdb93a7e23e70e78fff6681a.zip"
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "helloLambdaNodeJsServiceRole17C143C3",
-            "Arn"
-          ]
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-          }
-        },
-        "Handler": "index.handler",
-        "Runtime": "nodejs14.x"
-      },
-      "DependsOn": [
-        "helloLambdaNodeJsServiceRoleDefaultPolicy14D90D8C",
-        "helloLambdaNodeJsServiceRole17C143C3"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "Space-finder/helloLambdaNodeJs/Resource",
-        "aws:asset:path": "asset.0d0dda6a06810c92e8d70f5f6a1a9e6bd1aa5940cdb93a7e23e70e78fff6681a",
         "aws:asset:is-bundled": true,
         "aws:asset:property": "Code"
       }

@@ -2,6 +2,7 @@ import { DynamoDB } from 'aws-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda'
 import { v4 } from 'uuid'
 
+export { handler }
 
 // Passed by GenericTable as part of the environment properties of CreateSingleLambda method
 const TABLE_NAME = process.env.TABLE_NAME
@@ -17,24 +18,15 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
         body: 'Hello from DynamoDb'
     }
 
-    // Creates the item to put in the db from the body of the event received by the handler
-    const item = typeof event.body == 'object'? event.body: JSON.parse(event.body)
-    // Needed because spaceId is primaryKey
-    item.spaceId = v4()
-
     try {
-        await dbClient.put({
-            TableName: TABLE_NAME!, // the exclamation says that for sure we will have this variable set, because part of the table constructor
-            Item: item
-        }).promise()
-    } catch (error) {
+        const queryResponse = await dbClient.scan({TableName:TABLE_NAME!}).promise()
+        result.body = JSON.stringify(queryResponse)
+    }
+    catch (error) {
         result.body = error.message
     }
-    
-    result.body = JSON.stringify(`Created item with id: ${item.spaceId}`)
 
     return result
 
 }
 
-export { handler }

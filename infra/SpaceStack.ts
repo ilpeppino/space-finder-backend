@@ -10,13 +10,18 @@ import { PolicyStatement }                              from 'aws-cdk-lib/aws-ia
 
 export class SpaceStack extends Stack {
     
-    private api = new RestApi(this, 'SpaceApi')
-    private spacesTable = new GenericTable(this, {
+    // Creates API gateway REST (aws-apigateway)
+    private _api = new RestApi(this, 'SpaceApi')
+
+    // Creates Dynamo db table (GenericTable.ts)
+    private _spacesTable = new GenericTable(this, {
         tableName: 'SpacesTable',
         primaryKey: 'spaceId',
         createLambdaPath: 'Create'
     })
 
+
+    // Stack constructor
     constructor(scope: Construct, id: string, props:StackProps) {
         super(scope,id,props)
 
@@ -48,26 +53,30 @@ export class SpaceStack extends Stack {
         // CASE 2
         // Lambda integration with NodejsFunction with Typescript class
 
-        const helloLambdaNodeJs = new NodejsFunction(this, 'helloLambdaNodeJs', {
-            entry: join(__dirname, '..', 'services', 'node-lambda', 'hello.ts'),
-            handler: 'handler'
-        })
+        // const helloLambdaNodeJs = new NodejsFunction(this, 'helloLambdaNodeJs', {
+        //     entry: join(__dirname, '..', 'services', 'node-lambda', 'hello.ts'),
+        //     handler: 'handler'
+        // })
 
         // Create and attach policy to Lambda so that it can list all the buckets
-        const s3ListPolicy = new PolicyStatement()
-        s3ListPolicy.addActions('s3:ListAllMyBuckets')
-        s3ListPolicy.addResources('*')
-        helloLambdaNodeJs.addToRolePolicy(s3ListPolicy)
+        // const s3ListPolicy = new PolicyStatement()
+        // s3ListPolicy.addActions('s3:ListAllMyBuckets')
+        // s3ListPolicy.addResources('*')
+        // helloLambdaNodeJs.addToRolePolicy(s3ListPolicy)
 
 
         // Configures the API gateway to access the lambda
-        const helloLambdaIntegration = new LambdaIntegration(helloLambdaNodeJs)
-        const helloLambdaResource = this.api.root.addResource('hello')
-        helloLambdaResource.addMethod('GET', helloLambdaIntegration)
+        // const helloLambdaIntegration = new LambdaIntegration(helloLambdaNodeJs)
+        // const helloLambdaResource = this.api.root.addResource('hello')
+        // helloLambdaResource.addMethod('GET', helloLambdaIntegration)
 
         // Spaces API Integration
-        const spaceResource = this.api.root.addResource('spaces')
-        spaceResource.addMethod('POST', this.spacesTable.createLambdaIntegration)
+
+        // Adds resource to API gateway with URI /spaces
+        const spaceResource = this._api.root.addResource('spaces')
+
+        // Adds method to call createLambdaIntegration method in GenericTable
+        spaceResource.addMethod('POST', this._spacesTable.createLambdaIntegration)
 
 //------------------------------------------------------------------------------------
 

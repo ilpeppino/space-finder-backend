@@ -9,24 +9,24 @@ import { join }                         from 'path'
 export interface TableProps {
     tableName           : string
     primaryKey          : string
-    createLambdaPath?   : string
-    readLambdaPath?     : string
-    updateLambdaPath?   : string
-    deleteLambdaPath?   : string
+    createLambdaPath?   : string  //optional
+    readLambdaPath?     : string  //optional
+    updateLambdaPath?   : string  //optional
+    deleteLambdaPath?   : string  //optional
 }
 
 export class GenericTable {
 
     // Local variables
 
-    private stack: Stack
-    private table: Table
-    private props: TableProps
+    private _stack: Stack
+    private _table: Table
+    private _props: TableProps
 
-    private createLambda    : NodejsFunction | undefined
-    private readLambda      : NodejsFunction | undefined
-    private updateLambda    : NodejsFunction | undefined
-    private deleteLambda    : NodejsFunction | undefined
+    private _createLambda    : NodejsFunction | undefined
+    private _readLambda      : NodejsFunction | undefined
+    private _updateLambda    : NodejsFunction | undefined
+    private _deleteLambda    : NodejsFunction | undefined
 
     // Public variables
     public createLambdaIntegration  : LambdaIntegration
@@ -37,10 +37,10 @@ export class GenericTable {
     // Constructor for table creation
     public constructor (stack: Stack, props: TableProps) {
         
-        this.stack = stack
-        this.props = props
+        this._stack = stack
+        this._props = props
         this.initialize()
-        
+      
     }
 
     private initialize() {
@@ -50,61 +50,63 @@ export class GenericTable {
     }
 
     private createTable() {
-        this.table = new Table(this.stack, this.props.tableName, {
+        this._table = new Table(this._stack, this._props.tableName, {
             partitionKey: {
-                name: this.props.primaryKey,
+                name: this._props.primaryKey,
                 type: AttributeType.STRING
             },
-            tableName: this.props.tableName
+            tableName: this._props.tableName
         })
     }
 
     private createLambdas() {
-        if (this.props.createLambdaPath) {
-            this.createLambda = this.createSingleLambda(this.props.createLambdaPath)
-            this.createLambdaIntegration = new LambdaIntegration(this.createLambda)
+        // Checks if tableProps has one of the *LambdaPath element
+        if (this._props.createLambdaPath) {
+            this._createLambda = this.createSingleLambda(this._props.createLambdaPath)
+            this.createLambdaIntegration = new LambdaIntegration(this._createLambda)
         }
-        if (this.props.readLambdaPath) {
-            this.readLambda = this.createSingleLambda(this.props.readLambdaPath)
-            this.readLambdaIntegration = new LambdaIntegration(this.readLambda)
+        if (this._props.readLambdaPath) {
+            this._readLambda = this.createSingleLambda(this._props.readLambdaPath)
+            this.readLambdaIntegration = new LambdaIntegration(this._readLambda)
         }
-        if (this.props.updateLambdaPath) {
-            this.updateLambda = this.createSingleLambda(this.props.updateLambdaPath)
-            this.updateLambdaIntegration = new LambdaIntegration(this.updateLambda)
+        if (this._props.updateLambdaPath) {
+            this._updateLambda = this.createSingleLambda(this._props.updateLambdaPath)
+            this.updateLambdaIntegration = new LambdaIntegration(this._updateLambda)
         }
-        if (this.props.deleteLambdaPath) {
-            this.deleteLambda = this.createSingleLambda(this.props.deleteLambdaPath)
-            this.deleteLambdaIntegration = new LambdaIntegration(this.deleteLambda)
+        if (this._props.deleteLambdaPath) {
+            this._deleteLambda = this.createSingleLambda(this._props.deleteLambdaPath)
+            this.deleteLambdaIntegration = new LambdaIntegration(this._deleteLambda)
         }
     }
 
 
     private grantTableRights() {
-        if (this.createLambda) {
-            this.table.grantWriteData(this.createLambda)
+        if (this._createLambda) {
+            this._table.grantWriteData(this._createLambda)
         }
-        if (this.readLambda) {
-            this.table.grantWriteData(this.readLambda)
+        if (this._readLambda) {
+            this._table.grantWriteData(this._readLambda)
         }
-        if (this.updateLambda) {
-            this.table.grantWriteData(this.updateLambda)
+        if (this._updateLambda) {
+            this._table.grantWriteData(this._updateLambda)
         }
-        if (this.deleteLambda) {
-            this.table.grantWriteData(this.deleteLambda)
+        if (this._deleteLambda) {
+            this._table.grantWriteData(this._deleteLambda)
         }
     }
 
     private createSingleLambda(lambdaName: string): NodejsFunction {
 
-        const lambaId = `${this.props.tableName}-${lambdaName}`
-
-        return new NodejsFunction(this.stack, lambaId, {
-            entry: (join(__dirname,'..','services',this.props.tableName, `${lambdaName}.ts`)),
+        const lambaId = `${this._props.tableName}-${lambdaName}`
+        
+        // Creates lambda with name lambdaId in the stack, which executes the Create.ts script
+        return new NodejsFunction(this._stack, lambaId, {
+            entry: (join(__dirname,'..','services',this._props.tableName, `${lambdaName}.ts`)),
             handler: "handler",
-            functionName: lambaId,
+            functionName: lambaId, // this allows to customize the lambda name in console
             environment: {
-                TABLE_NAME: this.props.tableName,
-                PRIMARY_KEY: this.props.primaryKey
+                TABLE_NAME: this._props.tableName,
+                PRIMARY_KEY: this._props.primaryKey
             }
         })
     }
