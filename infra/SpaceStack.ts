@@ -17,7 +17,8 @@ export class SpaceStack extends Stack {
     private _spacesTable = new GenericTable(this, {
         tableName: 'SpacesTable',
         primaryKey: 'spaceId',
-        createLambdaPath: 'Create'
+        createLambdaPath: 'Create',
+        readLambdaPath: 'Read'
     })
 
 
@@ -77,6 +78,7 @@ export class SpaceStack extends Stack {
 
         // Adds method to call createLambdaIntegration method in GenericTable
         spaceResource.addMethod('POST', this._spacesTable.createLambdaIntegration)
+        spaceResource.addMethod('GET', this._spacesTable.readLambdaIntegration)
 
 //------------------------------------------------------------------------------------
 

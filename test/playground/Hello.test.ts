@@ -1,4 +1,5 @@
-import {handler} from '../../services/SpacesTable/Read'
+import { APIGatewayProxyEvent } from 'aws-lambda'
+import { handler } from '../../services/SpacesTable/Read'
 //import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from 'aws-lambda';
 
 // const event = {
@@ -7,8 +8,14 @@ import {handler} from '../../services/SpacesTable/Read'
 //     }
 // }
 
+const event: APIGatewayProxyEvent = {
+    queryStringParameters: {
+        spaceId: "fd083169-26b4-482a-8b14-fdbe3e6f0588"
+    }
+} as any
+
 // handler(event as any, {} as Context )
-handler({} as any, {} as any)
+handler(event, {} as any)
 
 // const result = await handler({} as any, {} as any).then((apiResult)=>{
 //     const items = JSON.parse(apiResult.body)
