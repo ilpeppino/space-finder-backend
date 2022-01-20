@@ -21,8 +21,9 @@ export class SpaceStack extends Stack {
         createLambdaPath:   'Create',
         readLambdaPath:     'Read',
         updateLambdaPath:   'Update',
+        deleteLambdaPath:   'Delete',
         secondaryIndexes:   ["location"]
-        
+
     })
 
 

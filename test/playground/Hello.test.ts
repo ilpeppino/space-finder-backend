@@ -36,7 +36,7 @@ import { handler } from '../../services/SpacesTable/Update'
 
 const event: APIGatewayProxyEvent = {
     queryStringParameters: {
-        spaceId: "fd083169-26b4-482a-8b14-fdbe3e6f0588"
+        spaceId: "fa2bfda6-d912-4ea5-83d0-d0a3f9664b4d"
     }
 } as any
 

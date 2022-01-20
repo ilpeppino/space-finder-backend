@@ -23,12 +23,15 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     item.spaceId = v4()
 
     try {
+        console.log(`Adding SpaceId ${item.spaceId}`)
         await dbClient.put({
             TableName: TABLE_NAME!, // the exclamation says that for sure we will have this variable set, because part of the table constructor
             Item: item
         }).promise()
+        console.log(`Added SpaceId ${item.spaceId}`)
     } catch (error) {
         result.body = error.message
+        console.log(error)
     }
     
     result.body = JSON.stringify(`Created item with id: ${item.spaceId}`)
