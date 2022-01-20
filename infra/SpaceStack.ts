@@ -15,11 +15,14 @@ export class SpaceStack extends Stack {
 
     // Defines Dynamo db table (GenericTable.ts). This calls the constructor of GenericTable
     private _spacesTable = new GenericTable(this, {
-        tableName: 'SpacesTable',
-        primaryKey: 'spaceId',
-        createLambdaPath: 'Create',
-        readLambdaPath: 'Read',
-        secondaryIndexes: ["location"]
+
+        tableName:          'SpacesTable',
+        primaryKey:         'spaceId',
+        createLambdaPath:   'Create',
+        readLambdaPath:     'Read',
+        updateLambdaPath:   'Update',
+        secondaryIndexes:   ["location"]
+        
     })
 
 
@@ -78,8 +81,10 @@ export class SpaceStack extends Stack {
         const spaceResource = this._api.root.addResource('spaces')
 
         // Adds method to call createLambdaIntegration method in GenericTable
-        spaceResource.addMethod('POST', this._spacesTable.createLambdaIntegration)
-        spaceResource.addMethod('GET', this._spacesTable.readLambdaIntegration)
+        spaceResource.addMethod('POST',     this._spacesTable.createLambdaIntegration)
+        spaceResource.addMethod('GET',      this._spacesTable.readLambdaIntegration)
+        spaceResource.addMethod('PUT',      this._spacesTable.updateLambdaIntegration)
+        spaceResource.addMethod('DELETE',   this._spacesTable.deleteLambdaIntegration)
 
 //------------------------------------------------------------------------------------
 

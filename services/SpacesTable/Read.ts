@@ -22,15 +22,18 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
 
     try {
 
+        // If URL contains query string parameters (primary or secondary key)
         // Example URL: https://ar10dtwcme.execute-api.us-east-1.amazonaws.com/prod/spaces?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+
         if (event.queryStringParameters) {
             if (PRIMARY_KEY! in event.queryStringParameters) {
                 result.body = await queryTableByPrimaryKey(event.queryStringParameters)
             } else {
                 result.body = await queryTableBySecondaryKey(event.queryStringParameters) 
             }
-        }      
-                
+        }  
+        
+        // If URL doesn't have query parameters, then scans the table                
         else {
             result.body = await scanTable()
         }
@@ -59,11 +62,12 @@ async function queryTableByPrimaryKey(queryParams: APIGatewayProxyEventQueryStri
 }
 
 async function queryTableBySecondaryKey(queryParams:APIGatewayProxyEventQueryStringParameters) {
+    // Workaround to get secondary key and value
     const querySecondaryKey = Object.keys(queryParams)[0]
     const querySecondaryValue = queryParams[querySecondaryKey]
     const queryResponse = await dbClient.query({
         TableName: TABLE_NAME!,
-        IndexName: querySecondaryKey,
+        IndexName: querySecondaryKey, // must be provided as we are looking for secondary key
         // The KeyConditionExpression is written like this below with #<<keyname>> = :<<keyvalue>>
         KeyConditionExpression: '#querySecondaryKey = :querySecondaryValue',
         ExpressionAttributeNames: { "#querySecondaryKey": querySecondaryKey },
