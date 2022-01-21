@@ -763,7 +763,7 @@
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
           },
-          "S3Key": "a126da146f9e7e7d81fcba0eb7cc072c507c2c7e36cdeb0d33062cc27b67cbbe.zip"
+          "S3Key": "de660aa3398c7cdbd5bfa16c0ace6a05401aff293116d63a208b672d6235e63b.zip"
         },
         "Role": {
           "Fn::GetAtt": [
@@ -788,7 +788,7 @@
       ],
       "Metadata": {
         "aws:cdk:path": "Space-finder/SpacesTable-Create/Resource",
-        "aws:asset:path": "asset.a126da146f9e7e7d81fcba0eb7cc072c507c2c7e36cdeb0d33062cc27b67cbbe",
+        "aws:asset:path": "asset.de660aa3398c7cdbd5bfa16c0ace6a05401aff293116d63a208b672d6235e63b",
         "aws:asset:is-bundled": true,
         "aws:asset:property": "Code"
       }
@@ -1005,7 +1005,7 @@
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
           },
-          "S3Key": "648f8a1cb81eda413b7e3367fe9f69105e4f5fb0f9dac659cd232076c01d365b.zip"
+          "S3Key": "ca7586a7810310a9d9b6dd71ebeb246fe60d95e347d194e888d48d491ce0e9cc.zip"
         },
         "Role": {
           "Fn::GetAtt": [
@@ -1030,7 +1030,7 @@
       ],
       "Metadata": {
         "aws:cdk:path": "Space-finder/SpacesTable-Update/Resource",
-        "aws:asset:path": "asset.648f8a1cb81eda413b7e3367fe9f69105e4f5fb0f9dac659cd232076c01d365b",
+        "aws:asset:path": "asset.ca7586a7810310a9d9b6dd71ebeb246fe60d95e347d194e888d48d491ce0e9cc",
         "aws:asset:is-bundled": true,
         "aws:asset:property": "Code"
       }
@@ -1126,7 +1126,7 @@
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
           },
-          "S3Key": "d40421d656dcc73f8db94a023de710d5f7a9a7d4f44e96b37b9b99e752bae38c.zip"
+          "S3Key": "16943ee3bcb93c8cffb1f060cef82c7bb560fbaa221a6196d6d7fda265a6a2ed.zip"
         },
         "Role": {
           "Fn::GetAtt": [
@@ -1151,7 +1151,7 @@
       ],
       "Metadata": {
         "aws:cdk:path": "Space-finder/SpacesTable-Delete/Resource",
-        "aws:asset:path": "asset.d40421d656dcc73f8db94a023de710d5f7a9a7d4f44e96b37b9b99e752bae38c",
+        "aws:asset:path": "asset.16943ee3bcb93c8cffb1f060cef82c7bb560fbaa221a6196d6d7fda265a6a2ed",
         "aws:asset:is-bundled": true,
         "aws:asset:property": "Code"
       }

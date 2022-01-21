@@ -1,6 +1,8 @@
 import { DynamoDB } from 'aws-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda'
-import { v4 } from 'uuid'
+//import { v4 } from 'uuid'
+import { randomizer, getEventBody } from '../shared/Utils';
+import { MissingFieldError, validateSpaceEntry } from '../shared/InputValidator';
 
 
 // Passed by GenericTable as part of the environment properties of CreateSingleLambda method
@@ -17,24 +19,45 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
         body: 'Hello from DynamoDb'
     }
 
-    // Creates the item to put in the db from the body of the event received by the handler
-    const item = typeof event.body == 'object'? event.body: JSON.parse(event.body)
-    // Needed because spaceId is primaryKey
-    item.spaceId = v4()
-
     try {
+
+        // Creates the item to put in the db from the body of the event received by the handler
+        const item = getEventBody(event)
+
+        // Needed because spaceId is primaryKey
+        item.spaceId = randomizer()
+        validateSpaceEntry(item)
+
         console.log(`Adding SpaceId ${item.spaceId}`)
+
         await dbClient.put({
             TableName: TABLE_NAME!, // the exclamation says that for sure we will have this variable set, because part of the table constructor
             Item: item
-        }).promise()
+        })
+        .promise()
+
         console.log(`Added SpaceId ${item.spaceId}`)
-    } catch (error) {
+
+        result.body = JSON.stringify(`Created item with id: ${item.spaceId}`)
+
+    } 
+    
+    catch (error) {
+
+        if (error instanceof MissingFieldError) {
+            result.statusCode = 403
+        }
+
+        else {
+            result.statusCode = 500
+        }
+        
         result.body = error.message
         console.log(error)
+
     }
     
-    result.body = JSON.stringify(`Created item with id: ${item.spaceId}`)
+    
 
     return result
 
