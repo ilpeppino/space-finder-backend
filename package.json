@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,11 +19,21 @@
   },
   "homepage": "https://github.com/ilpeppino/space-finder-backend#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.10",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/babel__core": "^7.1.18",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.10",
     "@types/webpack": "^5.28.0",
     "aws-cdk": "^2.8.0",
     "aws-cdk-lib": "^2.5.0",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1061.0",
+    "babel-jest": "^27.4.6",
     "constructs": "^10.0.30",
     "esbuild": "^0.14.11",
+    "jest": "^27.4.7",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4",
@@ -30,8 +41,8 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@types/aws-lambda": "^8.10.89",
-    "aws-sdk": "^2.1058.0",
+    "@aws-amplify/auth": "^4.3.20",
+    "aws-amplify": "^4.3.12",
     "cdk": "^2.8.0"
   }
 }
