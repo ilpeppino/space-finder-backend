@@ -1,0 +1,44 @@
+#@endpoint = https://10f4z51fy3.execute-api.us-east-1.amazonaws.com/prod
+@endpoint = https://ar10dtwcme.execute-api.us-east-1.amazonaws.com/prod/
+
+#GET {{endpoint}}/hello
+###
+
+GET {{endpoint}}/spaces?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+###
+
+GET {{endpoint}}/spaces?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+###
+
+GET {{endpoint}}/spaces?location=London
+###
+
+
+
+POST {{endpoint}}/spaces/
+Content-Type: : application/json
+
+{
+    "location": "London",
+    "name": "Best location"
+}
+### Creates a new item
+
+PUT {{endpoint}}/spaces?spaceId=fa2bfda6-d912-4ea5-83d0-d0a3f9664b4d
+Content-Type: : application/json
+
+{
+    "location": "Bari"
+}
+###
+
+PUT {{endpoint}}/spaces?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+Content-Type: application/json
+
+{
+    "location": "Updated Location"
+}
+###
+
+DELETE {{endpoint}}/spaces/?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+###
