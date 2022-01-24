@@ -7,11 +7,15 @@ import { GenericTable }                                 from './GenericTable'
 // Class 25. Import needed for Lamba bundling
 import { NodejsFunction}                                from 'aws-cdk-lib/aws-lambda-nodejs'
 import { PolicyStatement }                              from 'aws-cdk-lib/aws-iam'
+import { AuthorizerWrapper }                            from './auth/AuthorizerWrapper'
+import { UserPool } from 'aws-cdk-lib/aws-cognito';
 
 export class SpaceStack extends Stack {
     
     // Defines API gateway REST (aws-apigateway)
     private _api = new RestApi(this, 'SpaceApi')
+
+    private _authorizationWrapper : AuthorizerWrapper 
 
     // Defines Dynamo db table (GenericTable.ts). This calls the constructor of GenericTable
     private _spacesTable = new GenericTable(this, {
@@ -30,6 +34,8 @@ export class SpaceStack extends Stack {
     // Stack constructor
     constructor(scope: Construct, id: string, props:StackProps) {
         super(scope,id,props)
+
+        this._authorizationWrapper = new AuthorizerWrapper(this, this._api)
 
 
         //------------------------------------------------------------------------------------
@@ -86,6 +92,8 @@ export class SpaceStack extends Stack {
         spaceResource.addMethod('GET',      this._spacesTable.readLambdaIntegration)
         spaceResource.addMethod('PUT',      this._spacesTable.updateLambdaIntegration)
         spaceResource.addMethod('DELETE',   this._spacesTable.deleteLambdaIntegration)
+
+          
 
 //------------------------------------------------------------------------------------
 

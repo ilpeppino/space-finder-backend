@@ -1674,6 +1674,113 @@
               "version": "2.5.0"
             }
           },
+          "AuthorizerSpaceUserPools": {
+            "id": "AuthorizerSpaceUserPools",
+            "path": "Space-finder/AuthorizerSpaceUserPools",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "Space-finder/AuthorizerSpaceUserPools/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Cognito::UserPool",
+                  "aws:cdk:cloudformation:props": {
+                    "accountRecoverySetting": {
+                      "recoveryMechanisms": [
+                        {
+                          "name": "verified_phone_number",
+                          "priority": 1
+                        },
+                        {
+                          "name": "verified_email",
+                          "priority": 2
+                        }
+                      ]
+                    },
+                    "adminCreateUserConfig": {
+                      "allowAdminCreateUserOnly": false
+                    },
+                    "aliasAttributes": [
+                      "email"
+                    ],
+                    "autoVerifiedAttributes": [
+                      "email"
+                    ],
+                    "emailVerificationMessage": "The verification code to your new account is {####}",
+                    "emailVerificationSubject": "Verify your new account",
+                    "smsVerificationMessage": "The verification code to your new account is {####}",
+                    "userPoolName": "SpaceUserPool",
+                    "verificationMessageTemplate": {
+                      "defaultEmailOption": "CONFIRM_WITH_CODE",
+                      "emailMessage": "The verification code to your new account is {####}",
+                      "emailSubject": "Verify your new account",
+                      "smsMessage": "The verification code to your new account is {####}"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cognito.CfnUserPool",
+                  "version": "2.5.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cognito.UserPool",
+              "version": "2.5.0"
+            }
+          },
+          "UserPoolId": {
+            "id": "UserPoolId",
+            "path": "Space-finder/UserPoolId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.5.0"
+            }
+          },
+          "SpaceUserPoolClient": {
+            "id": "SpaceUserPoolClient",
+            "path": "Space-finder/SpaceUserPoolClient",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "Space-finder/SpaceUserPoolClient/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Cognito::UserPoolClient",
+                  "aws:cdk:cloudformation:props": {
+                    "userPoolId": {
+                      "Ref": "AuthorizerSpaceUserPools761B99AE"
+                    },
+                    "allowedOAuthFlows": [
+                      "implicit",
+                      "code"
+                    ],
+                    "allowedOAuthFlowsUserPoolClient": true,
+                    "allowedOAuthScopes": [
+                      "profile",
+                      "phone",
+                      "email",
+                      "openid",
+                      "aws.cognito.signin.user.admin"
+                    ],
+                    "callbackUrLs": [
+                      "https://example.com"
+                    ],
+                    "clientName": "SpaceUserPoolClient",
+                    "supportedIdentityProviders": [
+                      "COGNITO"
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cognito.CfnUserPoolClient",
+                  "version": "2.5.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cognito.UserPoolClient",
+              "version": "2.5.0"
+            }
+          },
           "CDKMetadata": {
             "id": "CDKMetadata",
             "path": "Space-finder/CDKMetadata",

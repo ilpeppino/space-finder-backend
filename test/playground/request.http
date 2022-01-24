@@ -1,13 +1,15 @@
 #@endpoint = https://10f4z51fy3.execute-api.us-east-1.amazonaws.com/prod
 @endpoint = https://ar10dtwcme.execute-api.us-east-1.amazonaws.com/prod/
-
+@token = eyJraWQiOiI3bmtyRGY0Z0VXZm5TMjhCSUR1UWc1R0hUemVoRDlnXC9tRVdEZ3lIdUpYZz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI2YjYyMzdkYS02MDM4LTQxNDMtYmQ2ZS02NWU5ZGUyYmU0N2IiLCJldmVudF9pZCI6IjlhMWRhODdhLTUyZTEtNGRhZi1iYTVhLTFhNTE1MmJiM2M3YSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2NDMwMTY0MTYsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX3VrMzRKZWRlcSIsImV4cCI6MTY0MzAyMDAxNiwiaWF0IjoxNjQzMDE2NDE2LCJqdGkiOiI2MDg5NzliYS00NDBjLTQyNjMtOWRjMi1lODkzMmE5NDgyZjIiLCJjbGllbnRfaWQiOiIzaDh1bWdzOG00a2dsbDZ0MGV2djlhbm0xZyIsInVzZXJuYW1lIjoiaWxwZXBwaW5vIn0.a1EyT7s5cOWa554kwiyjjW0fSvbC-0LRHCtwZRjtx_o1qAPSrzQGOLpyRYUqD0RlV_GDqmUqdsf4KoJkNHqkUSA-sojTsETipouOao2mZlFE7Snpy7t_us1v-JawNlMRAyuubAyhZPsQG3nTsJ_Y6j9YEih90KnBcpwtnOYP3n-vU10VUg-Zea9_TO0iWb5_PMZwZJEIOxbIsFSPdf6gEHUsjh3QnZG8vzAVSINWM3i7STTEnlN7brJ8vtObv_EEACag6kolSlCRFaoEPb7kdGs3fmXvLw9yH58VQfp6rA3ZGSbuyrZaJyDZfjvJ98hQA28tiP2eb9QHO3-kAhZPUQ
 #GET {{endpoint}}/hello
 ###
 
 GET {{endpoint}}/spaces?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+Authorization: Bearer {{token}}
 ###
 
 GET {{endpoint}}/spaces?spaceId=fd083169-26b4-482a-8b14-fdbe3e6f0588
+Authorization: {{token}}
 ###
 
 GET {{endpoint}}/spaces?location=London

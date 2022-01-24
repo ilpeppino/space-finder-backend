@@ -1,6 +1,6 @@
 import { Auth }             from 'aws-amplify'
 import Amplify              from 'aws-amplify'
-import { config }           from './config'
+import { config }           from '../../test/auth/config'
 import { CognitoUser}       from '@aws-amplify/auth'
 
 Amplify.configure({
@@ -17,10 +17,7 @@ export class AuthService {
 
     public async login (userName: string, password: string) {
 
-        const user = await Auth.signIn(userName, password) as CognitoUser
-
-        console.log(user)
-
+        const user = await Auth.signIn(userName, password).then(console.log) as CognitoUser
         return user
 
     }
