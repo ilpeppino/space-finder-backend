@@ -60,7 +60,7 @@
         "aws:cdk:path": "Space-finder/SpaceApi/Account"
       }
     },
-    "SpaceApiDeploymentA2B9E765b7fd7b212beda5d7cc05c4f0765261ac": {
+    "SpaceApiDeploymentA2B9E765a1ddf350f26b9472eaf102d0c5d7adb0": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -86,7 +86,7 @@
           "Ref": "SpaceApi1B373D2B"
         },
         "DeploymentId": {
-          "Ref": "SpaceApiDeploymentA2B9E765b7fd7b212beda5d7cc05c4f0765261ac"
+          "Ref": "SpaceApiDeploymentA2B9E765a1ddf350f26b9472eaf102d0c5d7adb0"
         },
         "StageName": "prod"
       },
@@ -336,7 +336,10 @@
         "RestApiId": {
           "Ref": "SpaceApi1B373D2B"
         },
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "SpaceAuthorizer8F94503A"
+        },
         "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
@@ -1197,7 +1200,7 @@
         "aws:cdk:path": "Space-finder/AuthorizerSpaceUserPools/Resource"
       }
     },
-    "SpaceUserPoolClient6D6B1A77": {
+    "AuthorizerSpaceUserPoolsSpaceUserPoolClient8A16AAB4": {
       "Type": "AWS::Cognito::UserPoolClient",
       "Properties": {
         "UserPoolId": {
@@ -1218,19 +1221,49 @@
         "CallbackURLs": [
           "https://example.com"
         ],
-        "ClientName": "SpaceUserPoolClient",
+        "ClientName": "SpaceUserPool-Client",
+        "ExplicitAuthFlows": [
+          "ALLOW_USER_PASSWORD_AUTH",
+          "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+          "ALLOW_CUSTOM_AUTH",
+          "ALLOW_USER_SRP_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH"
+        ],
+        "GenerateSecret": false,
         "SupportedIdentityProviders": [
           "COGNITO"
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "Space-finder/SpaceUserPoolClient/Resource"
+        "aws:cdk:path": "Space-finder/AuthorizerSpaceUserPools/SpaceUserPool-Client/Resource"
+      }
+    },
+    "SpaceAuthorizer8F94503A": {
+      "Type": "AWS::ApiGateway::Authorizer",
+      "Properties": {
+        "Name": "SpaceAuthorizer",
+        "RestApiId": {
+          "Ref": "SpaceApi1B373D2B"
+        },
+        "Type": "COGNITO_USER_POOLS",
+        "IdentitySource": "method.request.header.Authorization",
+        "ProviderARNs": [
+          {
+            "Fn::GetAtt": [
+              "AuthorizerSpaceUserPools761B99AE",
+              "Arn"
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "Space-finder/SpaceAuthorizer/Resource"
       }
     },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WRTU/DMAyGf8vumWFMcO+GuAHTgPOUJaZ4S+OqTpmqqv+dpFnZdvLjV/6I3zzAI9zP9Enmxh7njvbQfwRtjipKu17XVOqAJ91Bv0UJRU1q/e2vsDCGWx/UM9aOuwojRvUqi9NKTFqG2MptY3Cl5ZKcZ2Z+xfDDNkmZBkW6iuvZ5boUN+zIdCnNNCinq73V0CcJm4pEiH0qeGm9CZEHZTuvK7bxwk+9z8NGmJp3ni0eBN7GMPUpWe60CAaBIoWYw6o1RwzjCYZLT4Gh/xJsNswujf3nCdaOzs7cKsOQtPc21G24uDHuSXaRL2+sibxmbynfk54LB7n7XTzBYgmL2UGI5k38DaoQtjn+AYLk6zjgAQAA"
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WRT0/DMAzFP8vuWWBMcO+GuAHTgPOUJaa4S+OqTphK1e9O0qz7c/LPT/WL/fogH+X9TB15rs1hbnEv+w+v9EFEaderBkvl4ag62W+BfdGgWH+7Kyy0puC8eIbGUldDxKheddGthKRliKMUWg0rxZfm5Jn5FfwPmSRNRKVDT18M7YbIchGi3OIftOMC524QqOq4J9lsmOqGLOoutZkGYVW9N0r2SYK2RmYklz54CU77yIMwnVM1mRjFp9pnsxGm4Z0jAxXLt7FMc4KXO8UMnmWRSuzlKugD+PFWna+Q/XRHsj3zBGuLpwhvlWFI2nvwTfCX2MZ3Uq7oypsMI6/JGcz3pHVlxXe/iye5WMrFrGLEeRt/G9Ygt7n+A7BuqdQJAgAA"
       },
       "Metadata": {
         "aws:cdk:path": "Space-finder/CDKMetadata/Default"
@@ -1268,6 +1301,11 @@
     "UserPoolId": {
       "Value": {
         "Ref": "AuthorizerSpaceUserPools761B99AE"
+      }
+    },
+    "UserPoolClientId": {
+      "Value": {
+        "Ref": "AuthorizerSpaceUserPoolsSpaceUserPoolClient8A16AAB4"
       }
     }
   },

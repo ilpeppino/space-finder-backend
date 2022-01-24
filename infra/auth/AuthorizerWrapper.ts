@@ -1,11 +1,7 @@
 import { Construct } from 'constructs';
-import { CognitoUserPoolsAuthorizer, RestApi } from 'aws-cdk-lib/aws-apigateway';
+import { Authorizer, CognitoUserPoolsAuthorizer, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 import { CfnOutput } from 'aws-cdk-lib';
-
-
-
-
 
 
 
@@ -29,14 +25,8 @@ export class AuthorizerWrapper {
 
         this.createUserPool()
         this.addUserPoolClient()
-
-    }
-    addUserPoolClient() {
-
-        this.userPoolClient = new UserPoolClient(this.scope, "SpaceUserPoolClient", {
-            userPool : this.userPool,
-            userPoolClientName: "SpaceUserPoolClient"
-        })
+        this.createUser()
+        this.addAuthorizer()
 
     }
 
@@ -57,5 +47,44 @@ export class AuthorizerWrapper {
         })
 
     }
+
+    private addUserPoolClient() {
+
+        this.userPoolClient = this.userPool.addClient("SpaceUserPool-Client", {
+            userPoolClientName: "SpaceUserPool-Client",
+            authFlows: {
+                adminUserPassword: true,
+                custom: true,
+                userPassword: true,
+                userSrp: true
+            },
+            generateSecret: false
+        })
+
+        new CfnOutput(this.scope, "UserPoolClientId", {
+            value: this.userPoolClient.userPoolClientId
+        })
+
+    }
+
+    private createUser() {
+
+        this.userPoolClient
+
+    }
+
+    private addAuthorizer() {
+        
+        this.authorizer = new CognitoUserPoolsAuthorizer(this.scope, "SpaceAuthorizer", {
+            cognitoUserPools: [this.userPool],
+            authorizerName: "SpaceAuthorizer",
+            identitySource: 'method.request.header.Authorization'
+        })
+
+        this.authorizer._attachToApi(this.api)
+
+    }
+
+
 
 }

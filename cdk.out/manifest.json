@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a002234c5f303e0d7d66b595671027c134810b58348cff64d5751663875ebba8.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2ef0cad51276ac6b339873dc80b88259b8db11d58cd5509d78a42ba87ab09e79.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -56,7 +56,7 @@
         "/Space-finder/SpaceApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SpaceApiDeploymentA2B9E765b7fd7b212beda5d7cc05c4f0765261ac"
+            "data": "SpaceApiDeploymentA2B9E765a1ddf350f26b9472eaf102d0c5d7adb0"
           }
         ],
         "/Space-finder/SpaceApi/DeploymentStage.prod/Resource": [
@@ -241,16 +241,28 @@
             "data": "AuthorizerSpaceUserPools761B99AE"
           }
         ],
+        "/Space-finder/AuthorizerSpaceUserPools/SpaceUserPool-Client/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthorizerSpaceUserPoolsSpaceUserPoolClient8A16AAB4"
+          }
+        ],
         "/Space-finder/UserPoolId": [
           {
             "type": "aws:cdk:logicalId",
             "data": "UserPoolId"
           }
         ],
-        "/Space-finder/SpaceUserPoolClient/Resource": [
+        "/Space-finder/UserPoolClientId": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SpaceUserPoolClient6D6B1A77"
+            "data": "UserPoolClientId"
+          }
+        ],
+        "/Space-finder/SpaceAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SpaceAuthorizer8F94503A"
           }
         ],
         "/Space-finder/CDKMetadata/Default": [

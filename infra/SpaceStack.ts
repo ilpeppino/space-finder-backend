@@ -2,7 +2,7 @@ import { Stack, StackProps }                       from 'aws-cdk-lib';
 import { Construct }                                    from 'constructs';
 import { Code, Function as LambdaFunction, Runtime }    from 'aws-cdk-lib/aws-lambda'
 import { join }                                         from 'path'
-import { LambdaIntegration, RestApi }                   from 'aws-cdk-lib/aws-apigateway'
+import { AuthorizationType, LambdaIntegration, MethodOptions, RestApi }                   from 'aws-cdk-lib/aws-apigateway'
 import { GenericTable }                                 from './GenericTable'
 // Class 25. Import needed for Lamba bundling
 import { NodejsFunction}                                from 'aws-cdk-lib/aws-lambda-nodejs'
@@ -87,9 +87,16 @@ export class SpaceStack extends Stack {
         // Adds resource to API gateway with URI /spaces
         const spaceResource = this._api.root.addResource('spaces')
 
+        const optionsWithAuthorizer: MethodOptions = {
+            authorizationType: AuthorizationType.COGNITO,
+            authorizer: {
+                authorizerId: this._authorizationWrapper.authorizer.authorizerId
+            }
+        }
+
         // Adds method to call createLambdaIntegration method in GenericTable
         spaceResource.addMethod('POST',     this._spacesTable.createLambdaIntegration)
-        spaceResource.addMethod('GET',      this._spacesTable.readLambdaIntegration)
+        spaceResource.addMethod('GET',      this._spacesTable.readLambdaIntegration,    optionsWithAuthorizer)
         spaceResource.addMethod('PUT',      this._spacesTable.updateLambdaIntegration)
         spaceResource.addMethod('DELETE',   this._spacesTable.deleteLambdaIntegration)
 
