@@ -1,14 +1,12 @@
-import { Stack, StackProps }                       from 'aws-cdk-lib';
-import { Construct }                                    from 'constructs';
-import { Code, Function as LambdaFunction, Runtime }    from 'aws-cdk-lib/aws-lambda'
-import { join }                                         from 'path'
-import { AuthorizationType, LambdaIntegration, MethodOptions, RestApi }                   from 'aws-cdk-lib/aws-apigateway'
-import { GenericTable }                                 from './GenericTable'
-// Class 25. Import needed for Lamba bundling
-import { NodejsFunction}                                from 'aws-cdk-lib/aws-lambda-nodejs'
-import { PolicyStatement }                              from 'aws-cdk-lib/aws-iam'
-import { AuthorizerWrapper }                            from './auth/AuthorizerWrapper'
-import { UserPool } from 'aws-cdk-lib/aws-cognito';
+import { Stack, StackProps }                        from 'aws-cdk-lib';
+import { Construct }                                from 'constructs';
+import { 
+    AuthorizationType, 
+    MethodOptions, 
+    RestApi }                                       from 'aws-cdk-lib/aws-apigateway'
+import { GenericTable }                             from './GenericTable'
+import { AuthorizerWrapper }                        from './auth/AuthorizerWrapper'
+
 
 export class SpaceStack extends Stack {
     

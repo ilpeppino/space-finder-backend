@@ -1159,7 +1159,7 @@
         "aws:asset:property": "Code"
       }
     },
-    "AuthorizerSpaceUserPools761B99AE": {
+    "SpaceUserPool6AB542DC": {
       "Type": "AWS::Cognito::UserPool",
       "Properties": {
         "AccountRecoverySetting": {
@@ -1175,7 +1175,11 @@
           ]
         },
         "AdminCreateUserConfig": {
-          "AllowAdminCreateUserOnly": false
+          "AllowAdminCreateUserOnly": false,
+          "InviteMessageTemplate": {
+            "EmailMessage": "Hello {username}! You have been invited as user in Cognito. Your temporary password is {####}",
+            "EmailSubject": "User invitation to Space finder"
+          }
         },
         "AliasAttributes": [
           "email"
@@ -1183,28 +1187,37 @@
         "AutoVerifiedAttributes": [
           "email"
         ],
-        "EmailVerificationMessage": "The verification code to your new account is {####}",
-        "EmailVerificationSubject": "Verify your new account",
+        "EmailVerificationMessage": "Thanks for signing up to our awesome app! Your verification code is {####}",
+        "EmailVerificationSubject": "User registration to Space finder",
+        "Policies": {
+          "PasswordPolicy": {
+            "MinimumLength": 8,
+            "RequireLowercase": false,
+            "RequireNumbers": false,
+            "RequireSymbols": false,
+            "RequireUppercase": false
+          }
+        },
         "SmsVerificationMessage": "The verification code to your new account is {####}",
         "UserPoolName": "SpaceUserPool",
         "VerificationMessageTemplate": {
           "DefaultEmailOption": "CONFIRM_WITH_CODE",
-          "EmailMessage": "The verification code to your new account is {####}",
-          "EmailSubject": "Verify your new account",
+          "EmailMessage": "Thanks for signing up to our awesome app! Your verification code is {####}",
+          "EmailSubject": "User registration to Space finder",
           "SmsMessage": "The verification code to your new account is {####}"
         }
       },
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
       "Metadata": {
-        "aws:cdk:path": "Space-finder/AuthorizerSpaceUserPools/Resource"
+        "aws:cdk:path": "Space-finder/SpaceUserPool/Resource"
       }
     },
-    "AuthorizerSpaceUserPoolsSpaceUserPoolClient8A16AAB4": {
+    "SpaceUserPoolSpaceUserPoolClientEBC7CB7E": {
       "Type": "AWS::Cognito::UserPoolClient",
       "Properties": {
         "UserPoolId": {
-          "Ref": "AuthorizerSpaceUserPools761B99AE"
+          "Ref": "SpaceUserPool6AB542DC"
         },
         "AllowedOAuthFlows": [
           "implicit",
@@ -1235,7 +1248,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "Space-finder/AuthorizerSpaceUserPools/SpaceUserPool-Client/Resource"
+        "aws:cdk:path": "Space-finder/SpaceUserPool/SpaceUserPool-Client/Resource"
       }
     },
     "SpaceAuthorizer8F94503A": {
@@ -1250,7 +1263,7 @@
         "ProviderARNs": [
           {
             "Fn::GetAtt": [
-              "AuthorizerSpaceUserPools761B99AE",
+              "SpaceUserPool6AB542DC",
               "Arn"
             ]
           }
@@ -1300,12 +1313,12 @@
     },
     "UserPoolId": {
       "Value": {
-        "Ref": "AuthorizerSpaceUserPools761B99AE"
+        "Ref": "SpaceUserPool6AB542DC"
       }
     },
     "UserPoolClientId": {
       "Value": {
-        "Ref": "AuthorizerSpaceUserPoolsSpaceUserPoolClient8A16AAB4"
+        "Ref": "SpaceUserPoolSpaceUserPoolClientEBC7CB7E"
       }
     }
   },

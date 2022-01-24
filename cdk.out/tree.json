@@ -1677,13 +1677,13 @@
               "version": "2.5.0"
             }
           },
-          "AuthorizerSpaceUserPools": {
-            "id": "AuthorizerSpaceUserPools",
-            "path": "Space-finder/AuthorizerSpaceUserPools",
+          "SpaceUserPool": {
+            "id": "SpaceUserPool",
+            "path": "Space-finder/SpaceUserPool",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "Space-finder/AuthorizerSpaceUserPools/Resource",
+                "path": "Space-finder/SpaceUserPool/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Cognito::UserPool",
                   "aws:cdk:cloudformation:props": {
@@ -1700,7 +1700,11 @@
                       ]
                     },
                     "adminCreateUserConfig": {
-                      "allowAdminCreateUserOnly": false
+                      "allowAdminCreateUserOnly": false,
+                      "inviteMessageTemplate": {
+                        "emailMessage": "Hello {username}! You have been invited as user in Cognito. Your temporary password is {####}",
+                        "emailSubject": "User invitation to Space finder"
+                      }
                     },
                     "aliasAttributes": [
                       "email"
@@ -1708,14 +1712,23 @@
                     "autoVerifiedAttributes": [
                       "email"
                     ],
-                    "emailVerificationMessage": "The verification code to your new account is {####}",
-                    "emailVerificationSubject": "Verify your new account",
+                    "emailVerificationMessage": "Thanks for signing up to our awesome app! Your verification code is {####}",
+                    "emailVerificationSubject": "User registration to Space finder",
+                    "policies": {
+                      "passwordPolicy": {
+                        "minimumLength": 8,
+                        "requireLowercase": false,
+                        "requireUppercase": false,
+                        "requireNumbers": false,
+                        "requireSymbols": false
+                      }
+                    },
                     "smsVerificationMessage": "The verification code to your new account is {####}",
                     "userPoolName": "SpaceUserPool",
                     "verificationMessageTemplate": {
                       "defaultEmailOption": "CONFIRM_WITH_CODE",
-                      "emailMessage": "The verification code to your new account is {####}",
-                      "emailSubject": "Verify your new account",
+                      "emailMessage": "Thanks for signing up to our awesome app! Your verification code is {####}",
+                      "emailSubject": "User registration to Space finder",
                       "smsMessage": "The verification code to your new account is {####}"
                     }
                   }
@@ -1727,16 +1740,16 @@
               },
               "SpaceUserPool-Client": {
                 "id": "SpaceUserPool-Client",
-                "path": "Space-finder/AuthorizerSpaceUserPools/SpaceUserPool-Client",
+                "path": "Space-finder/SpaceUserPool/SpaceUserPool-Client",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "Space-finder/AuthorizerSpaceUserPools/SpaceUserPool-Client/Resource",
+                    "path": "Space-finder/SpaceUserPool/SpaceUserPool-Client/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Cognito::UserPoolClient",
                       "aws:cdk:cloudformation:props": {
                         "userPoolId": {
-                          "Ref": "AuthorizerSpaceUserPools761B99AE"
+                          "Ref": "SpaceUserPool6AB542DC"
                         },
                         "allowedOAuthFlows": [
                           "implicit",
@@ -1819,7 +1832,7 @@
                     "providerArns": [
                       {
                         "Fn::GetAtt": [
-                          "AuthorizerSpaceUserPools761B99AE",
+                          "SpaceUserPool6AB542DC",
                           "Arn"
                         ]
                       }

@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2ef0cad51276ac6b339873dc80b88259b8db11d58cd5509d78a42ba87ab09e79.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f575733a73c6e505b28407e3fa0111d36c73fc302980d603c3065e139bb6ecee.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -235,16 +235,16 @@
             "data": "SpacesTableDeleteD71428D7"
           }
         ],
-        "/Space-finder/AuthorizerSpaceUserPools/Resource": [
+        "/Space-finder/SpaceUserPool/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AuthorizerSpaceUserPools761B99AE"
+            "data": "SpaceUserPool6AB542DC"
           }
         ],
-        "/Space-finder/AuthorizerSpaceUserPools/SpaceUserPool-Client/Resource": [
+        "/Space-finder/SpaceUserPool/SpaceUserPool-Client/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AuthorizerSpaceUserPoolsSpaceUserPoolClient8A16AAB4"
+            "data": "SpaceUserPoolSpaceUserPoolClientEBC7CB7E"
           }
         ],
         "/Space-finder/UserPoolId": [
