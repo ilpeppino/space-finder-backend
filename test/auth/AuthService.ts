@@ -1,7 +1,7 @@
-import { Auth } from 'aws-amplify'
-import Amplify from 'aws-amplify'
-import { config } from './config'
-import { CognitoUser} from '@aws-amplify/auth'
+import { Auth }             from 'aws-amplify'
+import Amplify              from 'aws-amplify'
+import { config }           from './config'
+import { CognitoUser}       from '@aws-amplify/auth'
 
 Amplify.configure({
     Auth:  {
