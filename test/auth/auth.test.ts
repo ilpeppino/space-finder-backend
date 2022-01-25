@@ -1,11 +1,22 @@
 import {AuthService} from './AuthService'
 import {config} from './config'
 import { CognitoUser } from '@aws-amplify/auth';
+import * as AWS from 'aws-sdk'
 
-const authService = new AuthService()
 
-const user  = authService.login(config.USERNAME, config.PASSWORD)
+async function callLogin() {
+    
+    const authService = new AuthService()
 
-console.log(`User ${config.USERNAME} logged in`)
-console.log("-----------")
-console.log(`TOKEN: ${user}`)
+    const user  = await authService.login(config.USERNAME, config.PASSWORD)
+    await authService.getAWSTempCredentials(user)
+    
+    const credentials = AWS.config.credentials
+
+    console.log(`User ${config.USERNAME} logged in`)
+
+}
+
+callLogin()
+
+
