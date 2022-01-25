@@ -1273,10 +1273,22 @@
         "aws:cdk:path": "Space-finder/SpaceAuthorizer/Resource"
       }
     },
+    "Admin": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "SpaceUserPool6AB542DC"
+        },
+        "GroupName": "Admin"
+      },
+      "Metadata": {
+        "aws:cdk:path": "Space-finder/Admin"
+      }
+    },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WRT0/DMAzFP8vuWWBMcO+GuAHTgPOUJaa4S+OqTphK1e9O0qz7c/LPT/WL/fogH+X9TB15rs1hbnEv+w+v9EFEaderBkvl4ag62W+BfdGgWH+7Kyy0puC8eIbGUldDxKheddGthKRliKMUWg0rxZfm5Jn5FfwPmSRNRKVDT18M7YbIchGi3OIftOMC524QqOq4J9lsmOqGLOoutZkGYVW9N0r2SYK2RmYklz54CU77yIMwnVM1mRjFp9pnsxGm4Z0jAxXLt7FMc4KXO8UMnmWRSuzlKugD+PFWna+Q/XRHsj3zBGuLpwhvlWFI2nvwTfCX2MZ3Uq7oypsMI6/JGcz3pHVlxXe/iye5WMrFrGLEeRt/G9Ygt7n+A7BuqdQJAgAA"
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/3WRQVPCMBCFfwv3EEVG7wVHTyqDemZCstSFNNvpJjK10/9u0lDAg6f99k33Zff1Tt7L24k68lSbw9TiVnbvXumDiNKmUzWWysNRtbJbA/uiRrHcuSsstKbgvHiE2lJbQcSoXnXRrYSkZYijFBoNC8WX5uSZ+QX8F5kkjUSlQ0+fDM2KyHIRotzgDzTDAueuF6iquCfZbJjqiizqNrWZemFVtTVKdkmCpkJmJJc+eApO+8i9MK1TFZkYxYfaZrMBxuGNIwN7lq9DGecEzzeKGTzLIpXYy0XQB/DDrTpfIbvxjmR75hGWFk8R/q88NxTqvk/SW/B18Jcch4dT0OjKP6FGXpIzmA9M+8s933zPHuRsLmeTPSNOm/gfsQK5zvUXtKv25RoCAAA="
       },
       "Metadata": {
         "aws:cdk:path": "Space-finder/CDKMetadata/Default"

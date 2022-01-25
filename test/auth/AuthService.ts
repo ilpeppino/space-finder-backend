@@ -7,6 +7,12 @@ import { Credentials}       from 'aws-sdk/lib/credentials'
 import { resolve } from 'path';
 import { rejects } from 'assert'
 
+// User pools vs identity pools
+// https://dev.to/aws-builders/what-is-amazon-cognito-user-pool-and-how-does-it-differ-from-a-cognito-identity-pool-4b2
+
+// USER POOL: 
+// IDENTITY POOL: Identity pools provide AWS credentials to grant your users registered into User Pool access to other AWS services.
+
 Amplify.configure({
     Auth:  {
         mandatorySignIn: false,
@@ -19,6 +25,8 @@ Amplify.configure({
 })
 
 export class AuthService {
+
+    // Login with user defined in User Pool
 
     public async login (userName: string, password: string) {
 
@@ -33,13 +41,18 @@ export class AuthService {
         // Code sample taken from Identity pools on AWS console
         // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityCredentials.html
 
-        const cognitoIdentityPool = `cognito-idp.${config.REGION}.amazonaws.com/${config.USER_POOL_ID}`
+        // Amazon Cognito identity pools provide temporary AWS credentials for users who are guests (unauthenticated) and 
+        // for users who have been authenticated and received a token. 
+        // An identity pool is a store of user identity data specific to your account.
+
+        const cognitoIdentityPool = `cognito-idp.${config.REGION}.amazonaws.com/${config.USER_POOL_ID}` 
 
         // Get identity credentials to sign requests with, from the identity pool where Cognito credentials resides
         // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityCredentials.html#constructor-property
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: config.IDENTITY_POOL_ID,
             Logins: {
+                // cognitoIdentutyPool needs to be provided as a key []
                 [cognitoIdentityPool]: user.getSignInUserSession()!.getIdToken().getJwtToken()
             }
         }, {

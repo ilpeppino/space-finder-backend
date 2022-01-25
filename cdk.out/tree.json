@@ -1850,6 +1850,23 @@
               "version": "2.5.0"
             }
           },
+          "Admin": {
+            "id": "Admin",
+            "path": "Space-finder/Admin",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Cognito::UserPoolGroup",
+              "aws:cdk:cloudformation:props": {
+                "userPoolId": {
+                  "Ref": "SpaceUserPool6AB542DC"
+                },
+                "groupName": "Admin"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cognito.CfnUserPoolGroup",
+              "version": "2.5.0"
+            }
+          },
           "CDKMetadata": {
             "id": "CDKMetadata",
             "path": "Space-finder/CDKMetadata",
