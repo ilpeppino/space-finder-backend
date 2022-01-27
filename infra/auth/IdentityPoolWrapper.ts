@@ -1,7 +1,8 @@
 import { 
     UserPoolClient,
     UserPool, 
-    CfnIdentityPool }           from "aws-cdk-lib/aws-cognito"
+    CfnIdentityPool, 
+    CfnIdentityPoolRoleAttachment}           from "aws-cdk-lib/aws-cognito"
 
 import { Construct }            from "constructs"
 import { CfnOutput }            from 'aws-cdk-lib'
@@ -21,7 +22,7 @@ export class IdentityPoolWrapper {
     private identityPool        : CfnIdentityPool
     private authenticatedRole   : Role
     private unauthenticatedRole : Role
-    private adminRole           : Role
+    public adminRole            : Role
 
     constructor (scope: Construct, userPool: UserPool, userPoolClient: UserPoolClient) {
 
@@ -37,6 +38,7 @@ export class IdentityPoolWrapper {
         this.initializeIAMAuthenticatedRole()
         this.initializeIAMUnauthenticatedRole()
         this.initializeAdminRole()
+        this.attachRoles()
 
     }
 
@@ -97,7 +99,7 @@ export class IdentityPoolWrapper {
     }
 
     private initializeAdminRole() {
-        this.adminRole = new Role(this.scope, "CognitoDefaultAuthenticatedRole", {
+        this.adminRole = new Role(this.scope, "CognitoAdminRole", {
             assumedBy: new FederatedPrincipal("cognito-identity.amazonaws.com", {
                 StringEquals: {
                     "cognito-identity.amazonaws.com:aud": this.identityPool.ref
@@ -120,6 +122,25 @@ export class IdentityPoolWrapper {
 
         ))
         
+    }
+
+    private attachRoles() {
+
+        new CfnIdentityPoolRoleAttachment(this.scope, "RolesAttachment", {
+            identityPoolId: this.identityPool.ref,
+            roles: {
+                "authenticated": this.authenticatedRole.roleArn,
+                "unauthenticated": this.unauthenticatedRole.roleArn
+            },
+            roleMappings: {
+                adminsMapping: {
+                    type: "Token",
+                    ambiguousRoleResolution: "AuthenticatedRole",
+                    identityProvider: `${this.userPool.userPoolProviderName}:${this.userPoolClient.userPoolClientId}`
+                }
+            }
+        })
+
     }
 
 

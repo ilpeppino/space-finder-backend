@@ -1,17 +1,26 @@
-import { Construct } from 'constructs';
-import { Authorizer, CognitoUserPoolsAuthorizer, RestApi } from 'aws-cdk-lib/aws-apigateway';
-import { UserPool, UserPoolClient, VerificationEmailStyle, CfnUserPoolGroup } from 'aws-cdk-lib/aws-cognito';
-import { CfnOutput } from 'aws-cdk-lib';
+import { Construct }                from 'constructs';
+import { 
+    Authorizer, 
+    CognitoUserPoolsAuthorizer, 
+    RestApi }                       from 'aws-cdk-lib/aws-apigateway';
+import { 
+    UserPool, 
+    UserPoolClient, 
+    VerificationEmailStyle, 
+    CfnUserPoolGroup }              from 'aws-cdk-lib/aws-cognito';
+import { CfnOutput }                from 'aws-cdk-lib';
+import { IdentityPoolWrapper } from './IdentityPoolWrapper';
 
 
 
 export class AuthorizerWrapper {
 
-    private scope: Construct
-    private api: RestApi
-    private userPool: UserPool
-    private userPoolClient: UserPoolClient
-    public  authorizer: CognitoUserPoolsAuthorizer
+    private scope           : Construct
+    private api             : RestApi
+    private userPool        : UserPool
+    private userPoolClient  : UserPoolClient
+    public  authorizer      : CognitoUserPoolsAuthorizer
+    private identityPool    : IdentityPoolWrapper
 
 
     constructor(scope: Construct, api: RestApi) {
@@ -26,8 +35,8 @@ export class AuthorizerWrapper {
         this.createUserPool()
         this.addUserPoolClient()
         this.addAuthorizer()
+        this.initializeIdentityPoolWrapper()
         this.createAdminGroup()
-
     }
 
     private createUserPool() {
@@ -103,9 +112,14 @@ export class AuthorizerWrapper {
 
         new CfnUserPoolGroup(this.scope, "Admin", {
             userPoolId: this.userPool.userPoolId,
-            groupName: "Admin"
+            groupName: "Admin",
+            roleArn: this.identityPool.adminRole.roleArn
         })
 
+    }
+
+    private initializeIdentityPoolWrapper() {
+        this.identityPool =  new IdentityPoolWrapper(this.scope, this.userPool, this.userPoolClient)
     }
 
 
