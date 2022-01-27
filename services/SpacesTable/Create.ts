@@ -14,19 +14,25 @@ const dbClient = new DynamoDB.DocumentClient()
 // This handler allows to call lambdas via API GW, keep an eye on the input parameters type
 async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
 
-    const result: APIGatewayProxyResult = {
-        statusCode: 200,
-        body: 'Hello from DynamoDb'
-    }
 
-    try {
 
         // Creates the item to put in the db from the body of the event received by the handler
         const item = getEventBody(event)
 
         // Needed because spaceId is primaryKey
         item.spaceId = randomizer()
-        validateSpaceEntry(item)
+        console.log(item.spaceId)
+        //validateSpaceEntry(item)
+
+        const result: APIGatewayProxyResult = {
+            statusCode: 200,
+            body: `Table ${TABLE_NAME} - SpaceId: ${item.spaceId} - Event body: ${getEventBody(event)}`
+        }
+
+
+    try {
+
+
 
         console.log(`Adding SpaceId ${item.spaceId}`)
 
@@ -44,13 +50,13 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     
     catch (error) {
 
-        if (error instanceof MissingFieldError) {
-            result.statusCode = 403
-        }
+        // if (error instanceof MissingFieldError) {
+        //     result.statusCode = 403
+        // }
 
-        else {
-            result.statusCode = 500
-        }
+        // else {
+        //     result.statusCode = 500
+        // }
         
         result.body = error.message
         console.log(error)

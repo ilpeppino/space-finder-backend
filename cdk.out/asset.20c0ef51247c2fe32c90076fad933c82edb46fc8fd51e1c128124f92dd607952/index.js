@@ -36,33 +36,18 @@ function getEventBody(event) {
   return typeof event.body == "object" ? event.body : JSON.parse(event.body);
 }
 
-// services/shared/InputValidator.ts
-var MissingFieldError = class extends Error {
-};
-function validateSpaceEntry(arg) {
-  if (!arg.name) {
-    throw new MissingFieldError("Value for name required");
-  }
-  if (!arg.location) {
-    throw new MissingFieldError("Value for location required");
-  }
-  if (!arg.spaceId) {
-    throw new MissingFieldError("Value for spaceId required");
-  }
-}
-
 // services/SpacesTable/Create.ts
 var TABLE_NAME = process.env.TABLE_NAME;
 var dbClient = new import_aws_sdk.DynamoDB.DocumentClient();
 async function handler(event, context) {
+  const item = getEventBody(event);
+  item.spaceId = randomizer();
+  console.log(item.spaceId);
   const result = {
     statusCode: 200,
-    body: "Hello from DynamoDb"
+    body: `Table ${TABLE_NAME} - SpaceId: ${item.spaceId} - Event body: ${getEventBody(event)}`
   };
   try {
-    const item = getEventBody(event);
-    item.spaceId = randomizer();
-    validateSpaceEntry(item);
     console.log(`Adding SpaceId ${item.spaceId}`);
     await dbClient.put({
       TableName: TABLE_NAME,
@@ -71,11 +56,6 @@ async function handler(event, context) {
     console.log(`Added SpaceId ${item.spaceId}`);
     result.body = JSON.stringify(`Created item with id: ${item.spaceId}`);
   } catch (error) {
-    if (error instanceof MissingFieldError) {
-      result.statusCode = 403;
-    } else {
-      result.statusCode = 500;
-    }
     result.body = error.message;
     console.log(error);
   }
